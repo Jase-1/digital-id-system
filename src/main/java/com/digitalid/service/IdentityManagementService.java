@@ -50,4 +50,9 @@ public class IdentityManagementService {
         }
         return digitalId;
     }
+
+    public DigitalId findById(String id) {
+        return repository.findById(id);
+    }
+
 }
