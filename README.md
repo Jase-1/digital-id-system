@@ -39,23 +39,26 @@ All requests are validated before any operation is performed. Invalid requests -
 The system is organised into four packages, each with a distinct responsibility. 
 ## Model 
 Contains DigitalId.java, which represents a single digital identity with immutable fields (id, date of birth, nationality) enforced using Java's final keyword, and mutable fields (name, address). Also contains IdStatus, an enum defining the three possible states — ACTIVE, SUSPENDED, REVOKED.
-## repository 
+## Repository 
 This contains a single repository file that provides a data storage for Digital IDs to be stored in a centralised location as a Hashmap. It also provides functionality for Digital IDs to be accessed by saving and locating ids through the data storage.
-## service
+## Service
 This package consists of the management and consumption services plus the three verification strategies which are standardised through a verification strategy interface. The files within this package are what differentiates the level of access each organisation has to Digital IDs, the interaction between organisations and the data repository and the role of the central authority in managing Digital IDs.
-## audit
+## Audit
 This package contains the auditlog which logs key operations and events that take place related to Digital IDs
 
 
 ## Design Patterns and Code quality decisions featured 
 
-Singleton
-The Singleton pattern was applied to both the DigitalIdRepository and AuditLog classes. This ensures that only one instance of each exists throughout the lifetime of the system, meaning all components share the same data store and the same audit record. This prevents data inconsistency that would arise if multiple instances were created independently.
-Strategy
-The Strategy pattern was applied to the identity verification logic. Each organisation type implements a common VerificationStrategy interface but defines its own verification behaviour. This means the IdentityConsumptionService does not need to know which organisation it is dealing with - it simply calls verify() and the correct behaviour executes. This avoids a large if/else chain and means new organisation types can be added without modifying existing service code.
-Observer
-The Observer pattern was applied to the audit logging system. Rather than embedding logging logic directly inside the service classes, the AuditLog acts as an observer that is notified when key events occur. This keeps the logging concern separate from the business logic, meaning neither service needs to know how events are recorded — only that they should be reported.
-Code Quality Decisions. Throughout development, an awareness of code smells from the module was maintained to ensure the codebase remained clean, readable, and maintainable.
+Singleton - The Singleton pattern was applied to both the DigitalIdRepository and AuditLog classes. This ensures that only one instance of each exists throughout the lifetime of the system, meaning all components share the same data store and the same audit record. This prevents data inconsistency that would arise if multiple instances were created independently.
+
+
+Strategy - The Strategy pattern was applied to the identity verification logic. Each organisation type implements a common VerificationStrategy interface but defines its own verification behaviour. This means the IdentityConsumptionService does not need to know which organisation it is dealing with - it simply calls verify() and the correct behaviour executes. This avoids a large if/else chain and means new organisation types can be added without modifying existing service code.
+
+
+Observer - The Observer pattern was applied to the audit logging system. Rather than embedding logging logic directly inside the service classes, the AuditLog acts as an observer that is notified when key events occur. This keeps the logging concern separate from the business logic, meaning neither service needs to know how events are recorded — only that they should be reported.
+
+
+Code Quality Decisions - Throughout development, an awareness of code smells from the module was maintained to ensure the codebase remained clean, readable, and maintainable.
 Primitive Obsession was avoided by representing identity status as an IdStatus enum rather than a String. This was a deliberate decision because only three states are valid — ACTIVE, SUSPENDED, and REVOKED. Using a String would allow invalid values to be assigned without the compiler catching them, weakening the domain model. Using an enum means only valid states are ever possible.
 The Long Class smell was avoided by ensuring each class has a single, clearly defined responsibility. For example, DigitalId represents what an identity is, DigitalIdRepository handles storage, IdentityManagementService handles central authority operations, and AuditLog handles event recording. This mirrors the refactoring approach discussed in lectures, where a class doing too many things should be split into smaller, focused components.
 
