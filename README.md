@@ -47,8 +47,7 @@ This package consists of the management and consumption services plus the three 
 This package contains the auditlog which logs key operations and events that take place related to Digital IDs
 
 
-## Design Patterns and Code quality decisions featured 
-
+## Design Patterns and Code quality decisions featured
 Singleton - The Singleton pattern was applied to both the DigitalIdRepository and AuditLog classes. This ensures that only one instance of each exists throughout the lifetime of the system, meaning all components share the same data store and the same audit record. This prevents data inconsistency that would arise if multiple instances were created independently.
 
 
@@ -58,9 +57,16 @@ Strategy - The Strategy pattern was applied to the identity verification logic. 
 Observer - The Observer pattern was applied to the audit logging system. Rather than embedding logging logic directly inside the service classes, the AuditLog acts as an observer that is notified when key events occur. This keeps the logging concern separate from the business logic, meaning neither service needs to know how events are recorded — only that they should be reported.
 
 
-Code Quality Decisions - Throughout development, an awareness of code smells from the module was maintained to ensure the codebase remained clean, readable, and maintainable.
-Primitive Obsession was avoided by representing identity status as an IdStatus enum rather than a String. This was a deliberate decision because only three states are valid — ACTIVE, SUSPENDED, and REVOKED. Using a String would allow invalid values to be assigned without the compiler catching them, weakening the domain model. Using an enum means only valid states are ever possible.
-The Long Class smell was avoided by ensuring each class has a single, clearly defined responsibility. For example, DigitalId represents what an identity is, DigitalIdRepository handles storage, IdentityManagementService handles central authority operations, and AuditLog handles event recording. This mirrors the refactoring approach discussed in lectures, where a class doing too many things should be split into smaller, focused components.
+## Code Quality Decisions 
+Throughout development, an awareness of code smells from the module was maintained to ensure the codebase remained clean, readable, and maintainable.
+
+
+## Primitive Obsession 
+This was avoided by representing identity status as an IdStatus enum rather than a String. This was a deliberate decision because only three states are valid — ACTIVE, SUSPENDED, and REVOKED. Using a String would allow invalid values to be assigned without the compiler catching them, weakening the domain model. Using an enum means only valid states are ever possible.
+
+
+## Long Class smell 
+This was avoided by ensuring each class has a single, clearly defined responsibility. For example, DigitalId represents what an identity is, DigitalIdRepository handles storage, IdentityManagementService handles central authority operations, and AuditLog handles event recording. This approach ensures that a class with too many unrelated functions should be split into smaller, focused components.
 
 
 
