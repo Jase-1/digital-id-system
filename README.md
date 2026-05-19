@@ -24,8 +24,14 @@ Maven installed
 ## What the system does
 
 This system is a console-based backend platform for managing and consuming Digital IDs across a federated ecosystem of organisations. The platform is divided into two distinct capabilities as required by the system design: identity management and identity consumption.
+
+
 Identity management is the exclusive responsibility of a central authority, which is the only entity permitted to create new Digital IDs, update permitted attributes such as name and address, and manage identity status. Certain attributes, such as date of birth and nationality, are immutable once set, while others may be modified only when the identity is in a valid state - for example, a revoked Digital ID cannot be updated.
+
+
 Identity consumption is handled separately and allows authorised organisations to interact with the platform for verification purposes. Different organisations have different verification requirements - a tax authority verifies that an identity is active, a driving licence authority additionally checks eligibility conditions, and an employer performs a simple active status check. These operations are specific to the purpose for which an organisation requires the data provided by a Digital ID. Additionally, organisations do not modify identity data and do not communicate with each other directly.
+
+
 All requests are validated before any operation is performed. Invalid requests - such as attempting to create a duplicate ID or update a revoked identity - are rejected consistently with a clear error response. Key actions including identity creation, status changes, updates, and verification requests, are recorded by the audit log, allowing system behaviour to be examined.
 
 ## Packages structure and contents
