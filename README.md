@@ -65,7 +65,7 @@ Throughout development, an awareness of code smells from the module was maintain
 This was avoided by representing identity status as an IdStatus enum rather than a String. This was a deliberate decision because only three states are valid — ACTIVE, SUSPENDED, and REVOKED. Using a String would allow invalid values to be assigned without the compiler catching them, weakening the domain model. Using an enum means only valid states are ever possible.
 
 
-## Long Class smell 
+## Long Class  
 This was avoided by ensuring each class has a single, clearly defined responsibility. For example, DigitalId represents what an identity is, DigitalIdRepository handles storage, IdentityManagementService handles central authority operations, and AuditLog handles event recording. This approach ensures that a class with too many unrelated functions should be split into smaller, focused components.
 
 
