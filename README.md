@@ -1,4 +1,4 @@
-# digital-id-system
+# Digital-ID-System
 
 Github Repository link:
 https://github.com/Jase-1/digital-id-system
